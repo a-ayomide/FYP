@@ -1,0 +1,809 @@
+#: import FadeTransiton kivy.uix.screenmanager.FadeTransition
+<SelectableLabel>:
+    machine_name: ''
+    machine_load: ''
+    breaker_size: ''
+    cable_size: ''
+    canvas.before:
+        Color:
+            rgba: (0.0, 0.36, 0.95, 1) if self.selected else (0, 0, 0, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    text: root.machine_name+'   Load('+root.machine_load+'kVA)   Breaker('+root.breaker_size+'A)   Cable('+root.cable_size+'mm2)'
+
+CAESDApp:
+    transition: FadeTransiton()
+    LaunchPage:
+    CctvPage:
+    EarthingPage:
+    PowerPage_one:
+    PowerPage_two:
+    IlluminationPage:
+
+<FormLabel@Label>:
+    font_size: self.height/2.5
+    color: 0, 0, 0, 1
+<FormInput@TextInput>:
+    write_tab: False
+    multiline: False
+    keyboard_suggestions: False
+    allow_copy: False
+    font_size: self.height/1.8
+    size_hint: (0.8, 1)
+    color: 0, 0, 0, 1
+    #background_color:  0.2,0.2,0.4,0.4
+    #border_color: 0,0,0,1
+    cursor_color: [0,0,0,1]
+    #cursor_height: self.height/1.5
+    halign: 'center'
+    valign: 'middle'
+
+<LaunchPage>:
+    name: "launch_screen"
+    canvas.before:
+        Color:
+            rgba: 0.86, 0.95, 1.0, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: "vertical"
+        padding: 50
+        height: "450dp"
+        size_hint_y: None
+        pos_hint: {'center_x':.5, 'center_y': .5}
+        Label:
+            text: "Computer Aided Electrical Services Design"
+            font_size: 60
+            color: 0.05, 0.12, 0.41, 1
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+            halign: 'center'
+        Label:
+            text: "(Power Distribution | Illumination | CCTV | Earthing)"
+            font_size: 25
+            color: 0.05, 0.12, 0.41, 1
+            text_size: self.width, None
+            height: self.texture_size[1]
+            halign: 'center'
+        Label:
+            text: "APANTAKU, Ayomide 20141890"
+            font_size: 20
+            color: 0.05, 0.12, 0.41, 1
+        Button:
+            text: "APPLICATION"
+            font_size: 25
+            background_color: 0.0, 0.36, 0.95, 1
+            on_press: root.manager.current = 'power_screen_one'
+
+<PowerPage_one>:
+    name: 'power_screen_one'
+    numMachines: num_machines
+    numSections: num_sections
+    normalVoltage: normal_voltage
+    utilityVoltage: utility_voltage
+    growthFactor: growth_factor
+    deratingFactor: derating_factor
+    loadingFactor: loading_factor
+    dispPowerOneError: disp_power_one_error
+    buttAddMachines: butt_add_machines
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 0.86, 0.95, 1.0, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.06
+            pos_hint: {'top': 1}
+            padding: 0, 0, 15, 0
+            canvas.before:
+                Color:
+                    rgba: 0.09, 0.44, 0.96, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                size_hint_x: 0.08
+                text: '<'
+                font_size: self.height/1.5
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'launch_screen'
+            Label:
+                text: 'Power Distribution'
+                text_size: self.size
+                color: 0, 0, 0, 1
+                halign: 'left'
+                valign: 'middle'
+            Button:
+                size_hint_x: 0.22
+                text: 'Distribution'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0.5
+                on_press: root.manager.current = 'power_screen_one'
+            Button:
+                size_hint_x: 0.22
+                text: 'Illumination'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'illumination_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'CCTV'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'cctv_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'Earthing'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'earthing_screen'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_x: 0.5
+            pos_hint: {'center_x':.5, 'center_y': .5}
+            padding: 0,25,0,0
+            StackLayout:
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,0
+                    FormLabel:
+                        text: "OVERALL MACHINE PARAMETERS"
+                BoxLayout:
+                    size_hint: (1, 0.05)
+                    Label:
+                        id: disp_power_one_error
+                        text: ''
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Number of Machines"
+                    FormInput:
+                        id: num_machines
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Number of Sections"
+                    FormInput:
+                        id: num_sections
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Normal Voltage"
+                    FormInput:
+                        id: normal_voltage
+                        text: '415'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Utility Voltage"
+                    FormInput:
+                        id: utility_voltage
+                        text: '11000'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Growth factor"
+                    FormInput:
+                        id: growth_factor
+                        text: '1.25'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Derating factor"
+                    FormInput:
+                        id: derating_factor
+                        text: '1.25'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Load factor"
+                    FormInput:
+                        id: loading_factor
+                        text: '0.8'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    spacing: 10
+                    Button:
+                        text: 'Compute Power'
+                        background_color: 0.0, 0.36, 0.95, 1
+                        on_press:
+                            root.calculatePowerInputs(num_machines.text, num_sections.text)
+                            #root.selectMachineSection(num_sections.text)
+                    Button:
+                        id: butt_add_machines
+                        text: 'Add Machines'
+                        background_color: 0.0, 0.36, 0.95, 1
+                        disabled: True
+                        on_press:
+                            root.manager.current = 'power_screen_two'
+                    Button:
+                        text: 'Reset'
+                        background_color: 0.0, 0.36, 0.95, 1
+                        on_press:
+                            num_machines.text = ''
+                            num_sections.text = ''
+                            normal_voltage.text = '415'
+                            utility_voltage.text = '11000'
+                            growth_factor.text = '1.25'
+                            derating_factor.text = '1.25'
+                            loading_factor.text = '0.8'
+
+<PowerPage_two>:
+    name: 'power_screen_two'
+    machineOutOfNum: machine_out_of_num
+    machineNameName: machine_name_name
+    machineNameInput: machine_name_input
+    machineLoad: machine_load
+    machineFactor: machine_factor
+    dropSelectMachineSection: drop_select_machine_section
+    buttAddMachines: butt_add_machines
+    buttAllMachines: butt_all_machines
+    dropViewMachineSection: drop_view_machine_section
+    dispPowerTwoScreen: disp_power_two_screen
+    dispMachineListHeader: disp_machine_list_header
+    dispMachineScreen: disp_machine_screen
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 0.86, 0.95, 1.0, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.06
+            pos_hint: {'top': 1}
+            padding: 0, 0, 15, 0
+            canvas.before:
+                Color:
+                    rgba: 0.09, 0.44, 0.96, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                size_hint_x: 0.08
+                text: '<'
+                font_size: self.height/1.5
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'launch_screen'
+            Label:
+                text: 'Power Distribution'
+                text_size: self.size
+                color: 0, 0, 0, 1
+                halign: 'left'
+                valign: 'middle'
+            Button:
+                size_hint_x: 0.22
+                text: 'Distribution'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0.5
+                on_press: root.manager.current = 'power_screen_one'
+            Button:
+                size_hint_x: 0.22
+                text: 'Illumination'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'illumination_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'CCTV'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'cctv_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'Earthing'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'earthing_screen'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 0.7
+            pos_hint: {'center_x':.5, 'center_y': .5}
+            padding: 0,5,0,0
+            StackLayout:
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: (1, 0.6)
+                    padding: 0,5,0,0
+                    StackLayout:
+                        orientation: 'bt-lr'
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 0.6, 0.8
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                            Color:
+                                rgba: .5, .5, .5, 1
+                            Line:
+                                width: 2
+                                rectangle: self.x, self.y, self.width, self.height
+                        BoxLayout:
+                            size_hint: (1, 0.7)
+                            padding: 0,5,0,0
+                            StackLayout:
+                                BoxLayout:
+                                    size_hint: (1, 0.25)
+                                    Label:
+                                        id: disp_power_two_screen
+                                BoxLayout:
+                                    size_hint: (1, 0.1)
+                                    padding: 5,0,5,0
+                                    canvas.before:
+                                        Color:
+                                            rgba:  0.0, 0.2, 0.95, 1
+                                        Rectangle:
+                                            pos: self.pos
+                                            size: self.size
+                                    Label:
+                                        id: disp_machine_list_header
+                                        text: 'List of Machines'
+                                        disabled: True
+                                        halign: 'center'
+                                        valign: 'middle'
+                                RecycleView:
+                                    id: disp_machine_screen
+                                    bar_width: '10dp'
+                                    scroll_type: ['bars', 'content']
+                                    viewclass: 'SelectableLabel'
+                                    SelectableRecycleBoxLayout:
+                                        orientation: 'vertical'
+                                        default_size: self.width, 30
+                                        default_size_hint: 1, None
+                                        size_hint_y: None
+                                        height: self.minimum_height
+                                        spacing: 2
+                    BoxLayout:
+                        size_hint: (1, 0.16)
+                        padding: 0,5,0,0
+                        Button:
+                            id: butt_all_machines
+                            text: 'All Machines'
+                            background_color: 0.0, 0.36, 0.95, 1
+                            disabled: True
+                            on_press:
+                                root.displayPanelBoard(butt_all_machines.text)
+                        Spinner:
+                            id: drop_view_machine_section
+                            text: 'View Machine Sections'
+                            values: ['Ade']
+                            background_color: 0.0, 0.36, 0.95, 1
+                            disabled: True
+                            on_press:
+                                root.selectMachineSection()
+                            on_text:
+                                root.displayPanelBoard(drop_view_machine_section.text)
+                StackLayout:
+                    BoxLayout:
+                        size_hint: (1, 0.07)
+                        FormLabel:
+                            id: machine_out_of_num
+                    BoxLayout:
+                        size_hint: (1, 0.08)
+                        padding: 0,5,0,0
+                        FormLabel:
+                            id: machine_name_name
+                            text: 'Name for Machine 1'
+                        FormInput:
+                            id: machine_name_input
+                            text: 'Machine 1'
+                    BoxLayout:
+                        size_hint: (1, 0.08)
+                        padding: 0,5,0,0
+                        FormLabel:
+                            text: 'Power (load) in kVA'
+                        FormInput:
+                            id: machine_load
+                    BoxLayout:
+                        size_hint: (1, 0.08)
+                        padding: 0,5,0,0
+                        FormLabel:
+                            text: 'Power factor'
+                        FormInput:
+                            id: machine_factor
+                            text: '0.8'
+                    BoxLayout:
+                        size_hint: (1, 0.08)
+                        padding: 0,5,0,0
+                        Spinner:
+                        #Display a button for machine section
+                            id: drop_select_machine_section
+                            text: 'Select Machine Section'
+                            values: []
+                            background_color: 0.0, 0.36, 0.95, 1
+                            on_press:
+                                root.selectMachineSection()
+                        Button:
+                            id: butt_add_machines
+                            text: 'Add Machine'
+                            background_color: 0.0, 0.36, 0.95, 1
+                            on_press:
+                                root.addMachineParameters(machine_name_input.text, machine_load.text, drop_select_machine_section.text)
+
+
+<IlluminationPage>:
+    name: 'illumination_screen'
+    lengthOfRoom: length_of_room
+    breadthOfRoom: breadth_of_room
+    workingHeight: working_height
+    wattMSq: watt_per_meter_sq
+    lampL: lamp_lumen
+    numL: no_of_each_luminaire
+    mainFac: maintenance_factor
+    dispIllumination: display_illumination
+    dispLampDistributions: display_lamp_distributions
+    orientation: "vertical"
+    canvas.before:
+        Color:
+            rgba: 0.86, 0.95, 1.0, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.06
+            pos_hint: {'top': 1}
+            padding: 0, 0, 15, 0
+            canvas.before:
+                Color:
+                    rgba: 0.09, 0.44, 0.96, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                size_hint_x: 0.08
+                text: '<'
+                font_size: self.height/1.5
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'launch_screen'
+            Label:
+                text: 'Illumination'
+                text_size: self.size
+                color: 0, 0, 0, 1
+                halign: 'left'
+                valign: 'middle'
+            Button:
+                size_hint_x: 0.22
+                text: 'Distribution'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'power_screen_one'
+            Button:
+                size_hint_x: 0.22
+                text: 'Illumination'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0.5
+                on_press: root.manager.current = 'illumination_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'CCTV'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'cctv_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'Earthing'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'earthing_screen'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_x: 0.5
+            pos_hint: {'center_x':.5, 'center_y': .5}
+            padding: 0,5,0,0
+            StackLayout:
+                BoxLayout:
+                    size_hint: (1, 0.25)
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 0.6, 0.8
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                        Color:
+                            rgba: .5, .5, .5, 1
+                        Line:
+                            width: 2
+                            rectangle: self.x, self.y, self.width, self.height
+                    BoxLayout:
+                        orientation: "vertical"
+                        Label:
+                            id: display_illumination
+                            text: ""
+                            color: 0, 0, 0, 1
+                        Label:
+                            id: display_lamp_distributions
+                            text: ""
+                            color: 0, 0, 0, 1
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Length"
+                    FormInput:
+                        id: length_of_room
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Breadth"
+                    FormInput:
+                        id: breadth_of_room
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Working height"
+                    FormInput:
+                        id: working_height
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Watt/meter sq"
+                    FormInput:
+                        id: watt_per_meter_sq
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Lamp Lumen"
+                    Spinner:
+                        #Display a button for machine section
+                        id: lamp_lumen
+                        text: 'Lamp lumen'
+                        values: ['Thorn forceLED (120)', 'Thorn forceLED pro (137)', 'Tonic Gimbal (100)', 'HiPak proLED (135)']
+                        background_color: 0.5, 0.4, 0.5, 1
+                        #on_text: root.dropdownsel(drop_machine_section.text)
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Number of each luminaire"
+                    FormInput:
+                        id: no_of_each_luminaire
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: "Maintenance Factor"
+                    Spinner:
+                        #Display a button for machine section
+                        id: maintenance_factor
+                        text: 'Maintenance factor'
+                        values: ['0.6', '0.7', '0.8']
+                        background_color: 0.5, 0.4, 0.5, 1
+                        size_hint_x: 0.8
+                        #on_text: root.dropdownsel(drop_machine_section.text)
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    Button:
+                        id: butt_calc_light
+                        text: 'Calculate Lamps'
+                        background_color: 0.5, 0.4, 0.5, 1
+                        on_press: root.calculateLampsNeeded(length_of_room.text, breadth_of_room.text, working_height.text, watt_per_meter_sq.text, lamp_lumen.text, no_of_each_luminaire.text, maintenance_factor.text)
+
+<CctvPage>:
+    name: 'cctv_screen'
+    orientation: 'vertical'
+    dropManufacturer: drop_manufacturer
+    dropModel: drop_model
+    dropSensor: drop_sensor
+    distFromCamera: distance_from_camera
+    sceneWidth: scene_width
+    sceneHeight: scene_height
+    sceneArea: scene_area
+    focalLength: focal_length
+    canvas.before:
+        Color:
+            rgba: 0.86, 0.95, 1.0, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.06
+            pos_hint: {'top': 1}
+            padding: 0, 0, 15, 0
+            canvas.before:
+                Color:
+                    rgba: 0.09, 0.44, 0.96, 0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                size_hint_x: 0.08
+                text: '<'
+                font_size: self.height/1.5
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'launch_screen'
+            Label:
+                text: 'CCTV'
+                text_size: self.size
+                color: 0, 0, 0, 1
+                halign: 'left'
+                valign: 'middle'
+            Button:
+                size_hint_x: 0.22
+                text: 'Distribution'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'power_screen_one'
+            Button:
+                size_hint_x: 0.22
+                text: 'Illumination'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'illumination_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'CCTV'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0.5
+                on_press: root.manager.current = 'cctv_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'Earthing'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'earthing_screen'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_x: 0.5
+            pos_hint: {'center_x':.5, 'center_y': .5}
+            padding: 0,20,0,0
+            StackLayout:
+                Spinner:
+                #Display a button for manufacturer
+                    id: drop_manufacturer
+                    text: 'Manufacturer'
+                    font_size: self.height/2.5
+                    size_hint: (1, 0.09)
+                    values: ['ABUS', 'ACTI', 'ActiveCam', 'Arecont', 'Avigilon', 'Axis', 'Beward', 'BOLID', 'BOSCH', 'CONVISION', 'Dahua', 'Dallmeier', 'Digital Watchdog', 'Divisat', 'DSSL', 'DVTEL', 'Eneo', 'EVS', 'Evidence', 'FLIR', 'GeoVison']
+                    background_color: 0.5, 0.4, 0.5, 1
+                    on_text:
+                        root.selectedManufacturer()
+                    on_press:
+                        drop_model.text = 'Model'
+                        drop_sensor.text = 'No Model Selected'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    Spinner:
+                    #Display a button for nodel
+                        id: drop_model
+                        text: 'Model'
+                        font_size: self.height/2
+                        values: []
+                        background_color: 0.5, 0.4, 0.5, 1
+                        on_text:
+                            root.selectedModel()
+                    FormLabel:
+                        id: drop_sensor
+                        text: 'No Model Selected'
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: 'Distance from the Camera'
+                    FormInput:
+                        id: distance_from_camera
+                        on_text: root.calculateSceneDimensions('distance', distance_from_camera.text)
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: 'Scene Width'
+                    FormInput:
+                        id: scene_width
+                        on_text: root.calculateSceneDimensions('width', scene_width.text)
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: 'Scene Height'
+                    FormInput:
+                        id: scene_height
+                        on_text: root.calculateSceneDimensions('height', scene_height.text)
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: 'Focal Length'
+                    FormInput:
+                        id: focal_length
+                BoxLayout:
+                    size_hint: (1, 0.09)
+                    padding: 0,5,0,5
+                    FormLabel:
+                        text: 'Scene Area'
+                    FormInput:
+                        id: scene_area
+
+<EarthingPage>:
+    name: 'earthing_screen'
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba:0.86, 0.95, 1.0, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.06
+            pos_hint: {'top': 1}
+            padding: 0, 0, 15, 0
+            canvas.before:
+                Color:
+                    rgba: 0.09, 0.44, 0.96, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                size_hint_x: 0.08
+                text: '<'
+                font_size: self.height/1.5
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'launch_screen'
+            Label:
+                text: 'Earthing'
+                text_size: self.size
+                color: 0, 0, 0, 1
+                halign: 'left'
+                valign: 'middle'
+            Button:
+                size_hint_x: 0.22
+                text: 'Distribution'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'power_screen_one'
+            Button:
+                size_hint_x: 0.22
+                text: 'Illumination'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'illumination_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'CCTV'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0
+                on_press: root.manager.current = 'cctv_screen'
+            Button:
+                size_hint_x: 0.2
+                text: 'Earthing'
+                color: 0, 0, 0, 1
+                background_color: 1, 1, 1, 0.5
+                on_press: root.manager.current = 'earthing_screen'
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: 'Under Development'
+                color: 0, 0, 0, 1
